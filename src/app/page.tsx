@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import ImageUploader from "@/components/ImageUploader";
+import CameraCapture from "@/components/CameraCapture";
 import ProgressBar from "@/components/ProgressBar";
 import OcrResultViewer from "@/components/OcrResultViewer";
 import { uploadImage, pollOcrResult, type OcrRecord } from "@/lib/api";
@@ -58,14 +59,24 @@ export default function Home() {
           Extract Text from Images
         </h1>
         <p className="mt-3 text-muted text-lg">
-          Upload an image and let OCR do the rest. Supports PNG, JPG, WEBP, BMP,
-          and TIFF.
+          Upload an image or snap a photo, and let OCR do the rest.
         </p>
       </div>
 
       <div className="space-y-6">
         <ImageUploader
           onFileSelect={handleFileSelect}
+          disabled={state === "uploading" || state === "processing"}
+        />
+
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-border" />
+          <span className="text-sm text-muted">or</span>
+          <div className="flex-1 h-px bg-border" />
+        </div>
+
+        <CameraCapture
+          onCapture={handleFileSelect}
           disabled={state === "uploading" || state === "processing"}
         />
 
